@@ -4,10 +4,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <script>
-        
+        const options = ['rock', 'paper', 'scissors']
+        let playerScore = 0
+        let computerScore = 0
+
+        function getComputerChoice() {
+            let choice = options[Math.floor(Math.random() * 3)]
+            return choice;
+        }
+
+        function getPlayerChoice() {
+            let choice = prompt('Rock, Paper, or Scissors?')
+            
+            if (options.includes(choice)) {
+                return choice.toLowerCase();
+            } else {
+                return getPlayerChoice();
+            }
+        }
+
+        function isValidChoice(choice) {
+            return options.includes(choice);
+        }
+
+        function compareChoices(computerChoice, playerChoice) {
+            displayChoices(computerChoice, playerChoice);
+
+            // In case of a tie
+            if (computerChoice == playerChoice) {
+                return tie();
+            }
+            // In case of a rock win
+            else if (computerChoice == 'scissors' && playerChoice == 'rock') {
+                return win();
+            }
+            // In case of a paper win
+            else if (computerChoice == 'rock' && playerChoice == 'paper') {
+                return win()
+            }
+            // In case of a scissors win
+            else if (computerChoice == 'paper' && playerChoice == 'scissors') {
+                return win()
+            }
+            // In case of a rock loss
+            else if (computerChoice == 'paper' && playerChoice == 'rock') {
+                return lose();
+            }
+            // In case of a paper loss
+            else if (computerChoice == 'scissors' && playerChoice == 'paper') {
+                return lose()
+            }
+            // In case of a scissors loss
+            else if (computerChoice == 'rock' && playerChoice == 'scissors') {
+                return lose()
+            }
+            else {
+                return console.log('What the heck just happened?')
+            }
+        }
+
+        function displayChoices(computerChoice, playerChoice) {
+            console.log(`Computer - ${computerChoice}`)
+            console.log(`Player - ${playerChoice}`)
+        }
+
+        function win() {
+            playerScore++
+            return "You win!";
+        }
+
+        function lose() {
+            computerScore++
+            return "You lose!";
+        }
+
+        function tie() {
+            return "It's a tie!";
+        }
+
+        function displayScores() {
+            console.log(`Computer - ${computerScore}`)
+            console.log(`Player - ${playerScore}`)
+        }
+
+        function playRound() {
+            displayScores()
+
+            let playerChoice = getPlayerChoice()
+            let computerChoice = getComputerChoice()
+
+            let result = compareChoices(computerChoice, playerChoice)
+
+            console.log(result)
+        }
+
+        function playGame() {
+            const NUMBER_OF_ROUNDS = 5
+            for (let i = 0; i < NUMBER_OF_ROUNDS; ++i) {
+                playRound()
+            }
+        }
+
+        playGame()
     </script>
 </body>
 </html>
