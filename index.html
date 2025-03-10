@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <button onclick="playRound('rock')">Rock</button>
+    <button onclick="playRound('paper')">Paper</button>
+    <button onclick="playRound('scissors')">Scissors</button>
+    <div id="results">
+
+    </div>
     <script>
         const options = ['rock', 'paper', 'scissors']
         let playerScore = 0
@@ -17,9 +23,7 @@
             return choice;
         }
 
-        function getPlayerChoice() {
-            let choice = prompt('Rock, Paper, or Scissors?')
-            
+        function getPlayerChoice(choice) {
             if (options.includes(choice)) {
                 return choice.toLowerCase();
             } else {
@@ -68,8 +72,17 @@
         }
 
         function displayChoices(computerChoice, playerChoice) {
-            console.log(`Computer - ${computerChoice}`)
-            console.log(`Player - ${playerChoice}`)
+            const results = document.querySelector("#results")
+
+            const playerChoiceText = document.querySelector("#playerChoice") || document.createElement("p")
+            playerChoiceText.id = "playerChoice"
+            playerChoiceText.innerText = "Player - " + playerChoice
+            results.appendChild(playerChoiceText)
+
+            const computerChoiceText = document.querySelector("#computerChoice") || document.createElement("p")
+            computerChoiceText.id = "computerChoice"
+            computerChoiceText.innerText = "Computer - " + computerChoice
+            results.appendChild(computerChoiceText)
         }
 
         function win() {
@@ -87,29 +100,53 @@
         }
 
         function displayScores() {
+            const results = document.querySelector("#results")
+
+            const playerScoreText = document.querySelector("#playerScore") || document.createElement("p")
+            playerScoreText.id = "playerScore"
+            playerScoreText.innerText = "Player - " + playerScore
+            results.appendChild(playerScoreText)
+
+            const computerScoreText = document.querySelector("#computerScore") || document.createElement("p")
+            computerScoreText.id = "computerScore"
+            computerScoreText.innerText = "Computer - " + computerScore
+            results.appendChild(computerScoreText)
+
             console.log(`Computer - ${computerScore}`)
             console.log(`Player - ${playerScore}`)
         }
 
-        function playRound() {
-            displayScores()
-
-            let playerChoice = getPlayerChoice()
+        function playRound(choice) {
+            let playerChoice = getPlayerChoice(choice)
             let computerChoice = getComputerChoice()
 
             let result = compareChoices(computerChoice, playerChoice)
 
-            console.log(result)
-        }
+            displayScores()
 
-        function playGame() {
-            const NUMBER_OF_ROUNDS = 5
-            for (let i = 0; i < NUMBER_OF_ROUNDS; ++i) {
-                playRound()
+            const results = document.querySelector("#results")
+
+            const resultText = document.querySelector("#result") || document.createElement("p")
+            resultText.id = "result"
+            resultText.innerText = result
+
+            if (playerScore >= 5) {
+                resultText.innerText = "Player Wins the Game!"
+            } else if (computerScore >= 5) {
+                resultText.innerText = "Computer Wins the Game!"
             }
+
+            results.appendChild(resultText)
         }
 
-        playGame()
+        // function playGame() {
+        //     const NUMBER_OF_ROUNDS = 5
+        //     for (let i = 0; i < NUMBER_OF_ROUNDS; ++i) {
+        //         playRound()
+        //     }
+        // }
+
+        // playGame()
     </script>
 </body>
 </html>
